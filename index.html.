@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KNUST Student Marketplace</title>
+<style>
+:root{--g:#0b7a3b;--gd:#075c2c;--y:#f5b700;--bg:#f4f7f5;--t:#1d2b24;--m:#66736c}
+*{box-sizing:border-box;margin:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t);line-height:1.5}
+header{background:linear-gradient(135deg,var(--gd),var(--g));color:#fff;padding:32px 16px;text-align:center}
+header h1{font-size:1.7rem}
+header p{opacity:.9;margin-top:6px}
+.wrap{max-width:1000px;margin:0 auto;padding:16px}
+.bar{display:flex;flex-direction:column;gap:10px;margin-top:-22px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cfd8d3;border-radius:10px;font:inherit;background:#fff}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:140px}
+.tabs button{flex:1;padding:10px;border:1px solid #cfd8d3;background:#fff;border-radius:10px;font:inherit;cursor:pointer}
+.tabs button.on{background:var(--g);color:#fff;border-color:var(--g)}
+#count{color:var(--m);margin:14px 0 8px;font-size:.9rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08);display:flex;flex-direction:column}
+.pic{height:150px;background:#e6efe9;display:flex;align-items:center;justify-content:center;font-size:3rem;overflow:hidden}
+.pic img{width:100%;height:100%;object-fit:cover}
+.body{padding:12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.tag{font-size:.72rem;background:#e6efe9;color:var(--gd);padding:2px 8px;border-radius:20px;align-self:flex-start}
+.tag.s{background:#fff3cc;color:#7a5a00}
+.card h3{font-size:1rem}
+.price{color:var(--g);font-weight:700}
+.desc{font-size:.88rem;color:var(--m);flex:1}
+.seller{font-size:.8rem;color:var(--m)}
+.wa{display:block;text-align:center;background:#25d366;color:#fff;text-decoration:none;padding:10px;border-radius:10px;font-weight:600;margin-top:8px}
+.empty{text-align:center;color:var(--m);padding:30px}
+section.sell{background:#fff;border-radius:14px;padding:18px;margin:26px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+section.sell h2{margin-bottom:4px}
+section.sell form{display:grid;gap:10px;margin-top:12px}
+label{font-size:.85rem;font-weight:600}
+.btn{background:var(--g);color:#fff;border:0;padding:13px;border-radius:10px;font:inherit;font-weight:600;cursor:pointer}
+.note{font-size:.8rem;color:var(--m)}
+footer{text-align:center;color:var(--m);font-size:.8rem;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎓 KNUST Student Marketplace</h1>
+  <p>Buy, sell and find services from fellow students</p>
+</header>
+
+<div class="wrap">
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search products or services…">
+    <div class="row tabs" id="tabs">
+      <button data-t="all" class="on">All</button>
+      <button data-t="product">Products</button>
+      <button data-t="service">Services</button>
+    </div>
+    <select id="cat"></select>
+  </div>
+
+  <p id="count"></p>
+  <div class="grid" id="grid"></div>
+
+  <section class="sell" id="sell">
+    <h2>Sell or advertise on the marketplace</h2>
+    <p class="note">Fill this in and tap the button. It opens WhatsApp with your details so the admin can add your listing.</p>
+    <form id="form">
+      <div class="row">
+        <div><label>I want to list a</label>
+          <select id="f-type"><option value="product">Product</option><option value="service">Service</option></select></div>
+        <div><label>Category</label><select id="f-cat"></select></div>
+      </div>
+      <div><label>Title</label><input id="f-title" required placeholder="e.g. HP Laptop 8GB RAM"></div>
+      <div><label>Price in GH₵</label><input id="f-price" type="number" min="0" required placeholder="e.g. 1500"></div>
+      <div><label>Description</label><textarea id="f-desc" rows="3" required placeholder="Condition, details, location on campus…"></textarea></div>
+      <div class="row">
+        <div><label>Your name</label><input id="f-name" required></div>
+        <div><label>Your WhatsApp number</label><input id="f-wa" type="tel" required placeholder="0241234567"></div>
+      </div>
+      <div><label>Picture link (optional)</label><input id="f-img" placeholder="https://…"></div>
+      <button class="btn" type="submit">Send via WhatsApp</button>
+    </form>
+  </section>
+</div>
+<footer>© KNUST Student Marketplace · Made by students, for students</footer>
+
+<script>
+// ===== ADMIN WhatsApp number (already set to yours) =====
+const ADMIN_WHATSAPP = "233535647310";
+
+// ===== LISTINGS: these are SAMPLES. Replace with real ones. =====
+const LISTINGS = [
+  {type:"product",title:"HP Laptop 8GB RAM",category:"Electronics",price:1800,desc:"Used 1 year, battery lasts 4 hours. Comes with charger.",seller:"Sample Seller",whatsapp:"0200000000",image:""},
+  {type:"product",title:"Engineering Mathematics Textbook",category:"Books",price:60,desc:"Good condition, no torn pages.",seller:"Sample Seller",whatsapp:"0200000000",image:""},
+  {type:"product",title:"Jollof Rice & Chicken (daily)",category:"Food",price:35,desc:"Delivered on campus between 12pm and 2pm.",seller:"Sample Seller",whatsapp:"0200000000",image:""},
+  {type:"product",title:"Mini Fridge",category:"Room Essentials",price:900,desc:"Perfect for hostel rooms. Works very well.",seller:"Sample Seller",whatsapp:"0200000000",image:""},
+  {type:"service",title:"Event & Portrait Photography",category:"Photography",price:150,desc:"Graduation, birthdays and portraits. Edited photos in 48 hours. Price is per session.",seller:"Sample Seller",whatsapp
