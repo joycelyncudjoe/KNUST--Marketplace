@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>KNUST Market</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fa;
+      color: #172033;
+    }
+
+    header {
+      background: #0f172a;
+      color: white;
+      padding: 18px 6%;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .pilot {
+      font-size: 12px;
+      border: 1px solid #475569;
+      padding: 7px 11px;
+      border-radius: 20px;
+      color: #d1fae5;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 55px 0 65px;
+    }
+
+    .hero small {
+      color: #6ee7b7;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 6vw, 62px);
+      max-width: 750px;
+      line-height: 1.05;
+      margin: 15px 0;
+    }
+
+    .hero p {
+      max-width: 650px;
+      color: #cbd5e1;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .search-area {
+      display: flex;
+      gap: 10px;
+      max-width: 720px;
+      margin-top: 28px;
+    }
+
+    .search-area input {
+      flex: 1;
+      padding: 16px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+    }
+
+    .search-area button {
+      padding: 0 22px;
+      border: none;
+      border-radius: 10px;
+      background: #10b981;
+      color: #052e24;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 6% 70px;
+    }
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .top-row h2 {
+      font-size: 26px;
+    }
+
+    select {
+      padding: 11px 14px;
+      border: 1px solid #d0d5dd;
+      border-radius: 9px;
+      background: white;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e4e7ec;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+    }
+
+    .product-image {
+      height: 210px;
+      background: #eef2f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 55px;
+      position: relative;
+    }
+
+    .photo-note {
+      position: absolute;
+      bottom: 10px;
+      background: white;
+      border: 1px solid #e4e7ec;
+      color: #667085;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+
+    .card-body {
+      padding: 18px;
+    }
+
+    .category {
+      font-size: 11px;
+      color: #667085;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .product-name {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 7px 0;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 10px 0;
+    }
+
+    .location {
+      color: #667085;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .seller {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .seller span {
+      color: #667085;
+      font-weight: normal;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .buttons button {
+      flex: 1;
+      padding: 11px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .details {
+      background: white;
+      border: 1px solid #d0d5dd;
+    }
+
+    .order {
+      background: #10b981;
+      border: none;
+      color: #052e24;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px;
+      color: #667085;
+    }
+
+    .modal-background {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 520px;
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+    }
+
+    .modal h3 {
+      margin-bottom: 12px;
+      font-size: 23px;
+    }
+
+    .modal p {
+      color: #667085;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .close {
+      float: right;
+      border: none;
+      background: #f2f4f7;
+      padding: 7px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      color: #667085;
+      padding: 30px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 850px) {
+      .products {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .search-area {
+        flex-direction: column;
+      }
+
+      .search-area button {
+        padding: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="navbar">
+    <div class="logo">KNUST Market</div>
+
+    <div class="pilot">
+      Pilot • KNUST Students
+    </div>
+  </div>
+
+  <div class="hero">
+
+    <small>KNUST Student Marketplace</small>
+
+    <h1>
+      Find what KNUST students are selling.
+    </h1>
+
+    <p>
+      A simple marketplace for discovering products from student sellers
+      without searching through endless WhatsApp statuses, groups and
+      Telegram posts.
+    </p>
+
+    <div class="search-area">
+      <input
+        type="text"
+        id="search"
+        placeholder="Search calculators, fridges, yogurt..."
+      >
+
+      <button onclick="showProducts()">
+        Search
+      </button>
+    </div>
+
+  </div>
+
+</header>
+
+
+<main>
+
+  <div class="top-row">
+
+    <h2>Available Products</h2>
+
+    <select id="category" onchange="showProducts()">
+
+      <option value="all">
+        All Categories
+      </option>
+
+      <option value="Education">
+        Education
+      </option>
+
+      <option value="Food & Drinks">
+        Food & Drinks
+      </option>
+
+      <option value="Home Appliances">
+        Home Appliances
+      </option>
+
+      <option value="Phones & Accessories">
+        Phones & Accessories
+      </option>
+
+      <option value="Fashion">
+        Fashion
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <div id="products" class="products"></div>
+
+</main>
+
+
+<footer>
+
+  KNUST Market Pilot • Built for validation and student testing
+
+</footer>
+
+
+<div id="modalBackground" class="modal-background">
+
+  <div class="modal">
+
+    <button class="close" onclick="closeModal()">
+      ✕
+    </button>
+
+    <h3 id="modalTitle"></h3>
+
+    <p id="modalDescription"></p>
+
+    <button
+      class="order"
+      style="padding:12px 18px;border:none;border-radius:9px;font-weight:bold;"
+      onclick="closeModal()"
+    >
+      Close
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const products = [
+
+  {
+    name: "Scientific Calculator — All Versions",
+    category: "Education",
+    price: "GH₵180–190",
+    location: "KNUST",
+    seller: "Calculator Seller",
+    icon: "🧮",
+    description:
+      "Available versions include A, F, Second Edition and Classwiz. Current seller-reported price range is GH₵180–190."
+  },
+
+  {
+    name: "Natural Yogurt",
+    category: "Food & Drinks",
+    price: "GH₵10",
+    location: "KNUST",
+    seller: "P’s Yogurt",
+    icon: "🥤",
+    description:
+      "Student-owned natural yogurt business. Current seller-reported price is GH₵10. Confirm flavour, size and availability before ordering."
+  },
+
+  {
+    name: "168L Fridge",
+    category: "Home Appliances",
+    price: "GH₵2,600",
+    location: "KNUST • Brunei pickup",
+    seller: "Appliance Seller",
+    icon: "🧊",
+    description:
+      "New in box. Seller reports handle, LED light, key and lock. Nationwide delivery is available and there is a KNUST pickup point at Brunei."
+  },
+
+  {
+    name: "Table-Top Double-Door Fridge",
+    category: "Home Appliances",
+    price: "GH₵1,800",
+    location: "KNUST • Brunei pickup",
+    seller: "Appliance Seller",
+    icon: "🧊",
+    description:
+      "New in box. Nationwide delivery available with KNUST pickup at Brunei."
+  },
+
+  {
+    name: "90L Table-Top Fridge",
+    category: "Home Appliances",
+    price: "GH₵1,600",
+    location: "KNUST • Brunei pickup",
+    seller: "Appliance Seller",
+    icon: "🧊",
+    description:
+      "New in box. Nationwide delivery available with KNUST pickup at Brunei."
+  },
+
+  {
+    name: "Fridge Stand",
+    category: "Home Appliances",
+    price: "GH₵160",
+    location: "KNUST",
+    seller: "Appliance Seller",
+    icon: "🛒",
+    description:
+      "Seller reports free delivery to campus."
+  }
+
+];
+
+
+function showProducts() {
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const category =
+    document.getElementById("category").value;
+
+  const container =
+    document.getElementById("products");
+
+  const filtered =
+    products.filter(function(product) {
+
+      const matchesCategory =
+        category === "all" ||
+        product.category === category;
+
+      const searchable =
+        (
+          product.name +
+          " " +
+          product.category +
+          " " +
+          product.location +
+          " " +
+          product.seller
+        ).toLowerCase();
+
+      const matchesSearch =
+        search === "" ||
+        searchable.includes(search);
+
+      return matchesCategory && matchesSearch;
+
+    });
+
+
+  if (filtered.length === 0) {
+
+    container.innerHTML = `
+      <div class="empty">
+        No products found.
+        <br><br>
+        Try another search.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    filtered.map(function(product, index) {
+
+      return `
+
+        <div class="card">
+
+          <div class="product-image">
+
+            ${product.icon}
+
+            <div class="photo-note">
+              Seller photo coming
+            </div>
+
+          </div>
+
+          <div class="card-body">
+
+            <div class="category">
+              ${product.category}
+            </div>
+
+            <div class="product-name">
+              ${product.name}
+            </div>
+
+            <div class="price">
+              ${product.price}
+            </div>
+
+            <div class="location">
+              📍 ${product.location}
+            </div>
+
+            <div class="seller">
+              ${product.seller}
+              <span> • Student seller</span>
+            </div>
+
+            <div class="buttons">
+
+              <button
+                class="details"
+                onclick="showDetails(${products.indexOf(product)})"
+              >
+                Details
+              </button>
+
+              <button
+                class="order"
+                onclick="orderProduct(${products.indexOf(product)})"
+              >
+                Order
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+function showDetails(index) {
+
+  const product = products[index];
+
+  document.getElementById("modalTitle").innerText =
+    product.name;
+
+  document.getElementById("modalDescription").innerHTML =
+
+    "<strong>" + product.price + "</strong><br><br>" +
+
+    product.description +
+
+    "<br><br>📍 " +
+    product.location +
+
+    "<br><br><strong>Seller:</strong> " +
+    product.seller;
+
+  document.getElementById("modalBackground").style.display =
+    "flex";
+
+}
+
+
+function orderProduct(index) {
+
+  const product = products[index];
+
+  document.getElementById("modalTitle").innerText =
+    "Order Request";
+
+  document.getElementById("modalDescription").innerHTML =
+
+    "You selected <strong>" +
+    product.name +
+    "</strong> at <strong>" +
+    product.price +
+    "</strong>." +
+
+    "<br><br>" +
+
+    "This pilot does not process payments yet. " +
+
+    "For testing, the next step would be connecting the buyer " +
+    "with the seller to complete the purchase.";
+
+  document.getElementById("modalBackground").style.display =
+    "flex";
+
+}
+
+
+function closeModal() {
+
+  document.getElementById("modalBackground").style.display =
+    "none";
+
+}
+
+
+document
+  .getElementById("search")
+  .addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+
+      showProducts();
+
+    }
+
+  });
+
+
+showProducts();
+
+</script>
+
+</body>
+</html>
